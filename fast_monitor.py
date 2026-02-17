@@ -147,13 +147,13 @@ class FastMonitor:
             if new_positions:
                 print(f"\n🆕 {wallet[:12]}...")
                 for p in new_positions[:5]:  # 最多显示5个
-                    print(f"   {p.market[:40]}...")
+                    print(f"   {p.market}")  # 全名
                     print(f"   {p.outcome}: ${p.value:.2f}")
                 
                 # 生成 Telegram 消息
                 msg = f"🆕 <b>{wallet[:10]}...</b>\n"
                 for p in new_positions[:3]:
-                    msg += f"• {p.market[:30]}...\n"
+                    msg += f"• {p.market}\n"  # 全名
                     msg += f"  {p.outcome}: ${p.value:.2f}\n"
                 
                 new_alerts.append(msg)
