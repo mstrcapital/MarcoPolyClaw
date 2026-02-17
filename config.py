@@ -55,6 +55,10 @@ WALLET_PRIVATE_KEY = os.getenv("WALLET_PRIVATE_KEY", "")
 POLYGON_RPC = os.getenv("POLYGON_RPC", "https://polygon-mainnet.core.chainstack.com/3d54e0ba6084dca5b1d25d10b300c738")
 CLOB_API_KEY = os.getenv("CLOB_API_KEY", "")
 
+# Proxy Wallet 配置 (py_clob_client)
+PROXY_WALLET_ADDRESS = os.getenv("PROXY_WALLET_ADDRESS", "")  # Proxy wallet 地址
+SIGNATURE_TYPE = int(os.getenv("SIGNATURE_TYPE", "1"))  # 1 = POLY_PROXY (邮箱/Magic登录)
+
 # 跟单配置
 MONITORED_WALLETS = os.getenv("MONITORED_WALLETS", "").split(",") if os.getenv("MONITORED_WALLETS") else []
 COPY_TRADE_DELAY_MS = int(os.getenv("COPY_TRADE_DELAY_MS", "500"))
