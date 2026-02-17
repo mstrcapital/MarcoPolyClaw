@@ -11,9 +11,17 @@ Polymarket Client 初始化工具
     )
 """
 
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# 加载配置
+CONFIG_DIR = Path(__file__).parent / "config"
+load_dotenv(CONFIG_DIR / "wallet.env")
+
 from py_clob_client.client import ClobClient
 from py_clob_client.clob_types import ApiCreds
-from py_clob_client.constants import POLYGON_CHAIN_ID
+from py_clob_client.constants import POLYGON
 
 from config import (
     WALLET_PRIVATE_KEY,
@@ -56,8 +64,8 @@ def create_client(
     client = ClobClient(
         host=CLOB_HOST,
         key=private_key,           # owner 私钥，用于签名
-        chain_id=POLYGON_CHAIN_ID, # Polygon 主网 (137)
-        signature_type=signature_type,  # 1 = POLY_PROXY
+        chain_id=POLYGON,         # Polygon 主网 (137)
+        signature_type=signature_type,  # 2 = POLY_GNOSIS (邮箱)
         funder=proxy_address,      # 必须填 proxy 地址
     )
     
