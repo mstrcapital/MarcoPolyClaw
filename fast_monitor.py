@@ -25,6 +25,8 @@ from dotenv import load_dotenv
 CONFIG_DIR = Path(__file__).parent / "config"
 load_dotenv(CONFIG_DIR / "tradersmonitor.env")
 
+from wallet_info import get_wallet_info, get_profile_link
+
 # API
 DATA_API = "https://data-api.polymarket.com"
 
@@ -145,15 +147,21 @@ class FastMonitor:
             self.previous_trades[wallet] = {t.condition_id for t in positions}
             
             if new_positions:
-                print(f"\n🆕 {wallet[:12]}...")
+                # 获取钱包信息
+                info = get_wallet_info(wallet)
+                profile_link = get_profile_link(wallet)
+                
+                print(f"\n🆕 {wallet}")
+                print(f"   👤 {info.get('username', 'N/A')} | {info.get('pnl', 'N/A')}")
                 for p in new_positions[:5]:  # 最多显示5个
-                    print(f"   {p.market}")  # 全名
+                    print(f"   {p.market}")
                     print(f"   {p.outcome}: ${p.value:.2f}")
                 
                 # 生成 Telegram 消息
-                msg = f"🆕 <b>{wallet[:10]}...</b>\n"
+                msg = f"🆕 <b>{wallet}</b>\n"
+                msg += f"👤 <a href=\"{profile_link}\">{info.get('username', 'N/A')}</a> | {info.get('pnl', 'N/A')}\n"
                 for p in new_positions[:3]:
-                    msg += f"• {p.market}\n"  # 全名
+                    msg += f"• {p.market}\n"
                     msg += f"  {p.outcome}: ${p.value:.2f}\n"
                 
                 new_alerts.append(msg)
